@@ -27,6 +27,12 @@ dependencies {
 	testImplementation 'org.testcontainers:postgresql'
 }
 
+configurations {
+	all {
+		exclude group: 'junit', module: 'junit'
+	}
+}
+
 dependencyManagement {
 	imports {
 		mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
