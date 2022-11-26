@@ -4,4 +4,5 @@ import net.toiditimtoi.urlshortener.persistent.UrlMapping;
 import org.springframework.data.repository.CrudRepository;
 
 public interface UrlMappingRepository extends CrudRepository<UrlMapping, Long> {
+    UrlMapping findByHashUrl(String s);
 }

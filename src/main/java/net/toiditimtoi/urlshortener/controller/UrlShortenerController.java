@@ -1,5 +1,6 @@
 package net.toiditimtoi.urlshortener.controller;
 
+import net.toiditimtoi.urlshortener.model.UrlQueryResponse;
 import net.toiditimtoi.urlshortener.model.UrlRequest;
 import net.toiditimtoi.urlshortener.model.UrlResponse;
 import net.toiditimtoi.urlshortener.service.UrlShortenerService;
@@ -7,6 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +32,12 @@ public class UrlShortenerController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(new UrlResponse(hostName + "/" + urlMapping.getHashUrl()));
+    }
+
+    @GetMapping("{urlHash}")
+    public ResponseEntity<UrlQueryResponse> getFullUrl(@PathVariable(name = "urlHash") String urlHash) {
+        var queryResult = urlShortenerService.getUrlMappingByHash(urlHash);
+        return ResponseEntity.ok(new UrlQueryResponse(queryResult.getFullUrl()));
     }
 
 }

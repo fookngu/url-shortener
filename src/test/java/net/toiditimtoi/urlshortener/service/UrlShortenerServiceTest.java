@@ -6,10 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -41,5 +39,11 @@ class UrlShortenerServiceTest {
         // verify
         verify(hashFunction, times(1)).hash(dummyInput);
         verify(urlMappingRepository, times(1)).save(eq(dummyUrlMapping));
+    }
+
+    @Test
+    void testGetFullUrl() {
+        urlShortenerService.getUrlMappingByHash("6dM0R0F");
+        verify(urlMappingRepository, times(1)).findByHashUrl("6dM0R0F");
     }
 }

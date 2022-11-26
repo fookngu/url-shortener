@@ -2,7 +2,6 @@ package net.toiditimtoi.urlshortener.service;
 
 import net.toiditimtoi.urlshortener.persistent.UrlMapping;
 import net.toiditimtoi.urlshortener.repository.UrlMappingRepository;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,5 +22,9 @@ public class UrlShortenerService {
         return urlMappingRepository.save(
                 new UrlMapping(null, urlTail, longUrl)
         );
+    }
+
+    public UrlMapping getUrlMappingByHash(String urlHash) {
+        return urlMappingRepository.findByHashUrl(urlHash);
     }
 }

@@ -13,6 +13,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @WebMvcTest(controllers = {UrlShortenerController.class})
 public class UrlShortenerControllerTest {
@@ -29,7 +32,7 @@ public class UrlShortenerControllerTest {
         var dummyHash = "ax5cz67";
         var dummyUrlMapping = new UrlMapping(null, dummyHash, dummyUrl);
         var expectedOutput =
-                Mockito.when(urlShortenerService.shortenUrl(any())).thenReturn(dummyUrlMapping);
+                when(urlShortenerService.shortenUrl(any())).thenReturn(dummyUrlMapping);
         mockMvc.perform(
                 MockMvcRequestBuilders
                         .post("/api/v1/shorten")
@@ -56,8 +59,23 @@ public class UrlShortenerControllerTest {
     }
 
     @Test
-    public void test_redirection_endpoint() {
-
+    public void test_endpoint_to_get_back_full_url() throws Exception {
+        var fullUrl = "https://github.com/kukot";
+        var hashUrl = "6dM0R0F";
+        var urlMapping = new UrlMapping(null, hashUrl, fullUrl);
+        when(urlShortenerService.getUrlMappingByHash("6dM0R0F")).thenReturn(urlMapping);
+        mockMvc
+                .perform(
+                        MockMvcRequestBuilders.get("/api/v1/shorten/6dM0R0F")
+                ).andExpect(
+                        MockMvcResultMatchers.status().is2xxSuccessful()
+                ).andExpect(
+                        MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON)
+                ).andExpect(
+                        MockMvcResultMatchers.jsonPath("$.fullUrl")
+                                .value(fullUrl)
+                );
+        verify(urlShortenerService, times(1)).getUrlMappingByHash("6dM0R0F");
     }
 
 }
