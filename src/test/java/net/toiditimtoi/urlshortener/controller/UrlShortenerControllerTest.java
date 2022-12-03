@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @WebMvcTest(controllers = {UrlShortenerController.class})
-public class UrlShortenerControllerTest {
+class UrlShortenerControllerTest {
 
     @MockBean
     private UrlShortenerService urlShortenerService;
@@ -27,7 +27,7 @@ public class UrlShortenerControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    public void test_endpoint_to_shorten_url() throws Exception {
+    void test_endpoint_to_shorten_url() throws Exception {
         var dummyUrl = "http://url.short/abcxyz";
         var dummyHash = "ax5cz67";
         var dummyUrlMapping = new UrlMapping(null, dummyHash, dummyUrl);
@@ -59,7 +59,7 @@ public class UrlShortenerControllerTest {
     }
 
     @Test
-    public void test_endpoint_to_get_back_full_url() throws Exception {
+    void test_endpoint_to_get_back_full_url() throws Exception {
         var fullUrl = "https://github.com/kukot";
         var hashUrl = "6dM0R0F";
         var urlMapping = new UrlMapping(null, hashUrl, fullUrl);

@@ -8,7 +8,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -38,7 +37,7 @@ class UrlShortenerServiceTest {
 
         // verify
         verify(hashFunction, times(1)).hash(dummyInput);
-        verify(urlMappingRepository, times(1)).save(eq(dummyUrlMapping));
+        verify(urlMappingRepository, times(1)).save(dummyUrlMapping);
     }
 
     @Test
